@@ -1,0 +1,31 @@
+#include "DHT.h"
+DHT dht(A1, DHT11);
+void setup()
+{
+Serial.begin(9600);
+Serial.println("DHT11 Teste!");
+dht.begin();
+}
+void loop()
+{
+float umid = dht.readHumidity();
+float temp = dht.readTemperature();
+int leituraSensor = analogRead(A1);
+int anguloServo = map(leituraSensor, 0, 1023, 0, 180);
+
+if (isnan(temp) || isnan(umid))
+ // testa se retorno é valido.
+{
+Serial.println("Falha ao ler do DHT11");
+}
+else
+{
+Serial.print("Umidade: ");
+Serial.println(umid);
+Serial.print("Temperatura: ");
+Serial.print(temp);
+Serial.println(" *C");
+}
+delay(500);
+}
+
